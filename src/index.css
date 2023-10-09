@@ -1,0 +1,53 @@
+*{
+  margin: 0;
+} 
+
+.item:hover{
+  background: rgb(244, 244, 244);
+  cursor: pointer;
+}
+.card{
+  text-align: center;
+}
+.card:hover{
+  background: rgb(244, 244, 244);
+  cursor: pointer;
+}
+.contentTick{
+/* width: 30%; */
+}
+.contentTask{
+  /* width: 70%; */
+  }
+  .app{
+
+    margin: 0 !important;
+  }
+  .status{
+    color: rgb(209, 244, 199);
+    font-weight: 700;
+    background: rgb(6, 181, 38);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    font-size: 12px;
+  }
+  .header{
+    background: #0e9357;
+    height: 70px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    color: white;
+    gap: 10px;
+    padding-right: 10px;
+  }
+  .tableDescription{
+  border-collapse: collapse;
+  width: 100%;
+  }
+  .tableDescription tr, .tableDescription th, .tableDescription td{
+    padding: 0 20px 0 10px;
+    text-align: left;
+    border: 1px rgb(232, 234, 239) solid;
+  }
