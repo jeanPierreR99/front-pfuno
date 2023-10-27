@@ -13,16 +13,13 @@
   background: rgb(244, 244, 244);
   cursor: pointer;
 }
-.contentTick{
-/* width: 30%; */
+.content{
+padding: 0 10px 0 10px;
 }
 .contentTask{
   /* width: 70%; */
   }
-  .app{
-
-    margin: 0 !important;
-  }
+  
   .status{
     color: rgb(209, 244, 199);
     font-weight: 700;

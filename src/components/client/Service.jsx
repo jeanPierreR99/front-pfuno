@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, List, Avatar, Modal } from 'antd';
 import User from './User';
-import UploadFile from './UploadFile';
 const data = [
   {
     title: 'Servicio 1',
@@ -57,16 +56,22 @@ const warning = () => {
 };
 
 
-const Task = () => {
+const Service = () => {
 
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const showModal = () => {
+  const [service, setService] = useState("")
+  const [user, setUser] = useState("")
+  const [file, setFile] = useState([])
+
+  const showModal = (value) => {
+    setService(value)
     setOpen(true);
   };
   const handleOk = () => {
     setConfirmLoading(true);
     setTimeout(() => {
+      sendService()
       setOpen(false);
       setConfirmLoading(false);
       success()
@@ -76,6 +81,12 @@ const Task = () => {
     console.log('Clicked cancel button');
     setOpen(false);
   };
+  const sendService = ()=>{
+    console.log(service)
+    console.log(user)
+    console.log(file[0])
+    console.log("------------")
+  }
 
   return <div className='contentTask'>
   <List
@@ -91,7 +102,7 @@ const Task = () => {
     dataSource={data}
     renderItem={(item) => (
       <List.Item>
-        <Card title={item.title} className='card' onClick={showModal}>
+        <Card title={item.title} className='card' onClick={()=>{showModal(item.title)}}>
         
           <Avatar size={60}  src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
           </Card>
@@ -99,16 +110,14 @@ const Task = () => {
     )}
   />
   <Modal
-        title="Escoja un personal y suba una imagen"
+        title={`${service}: Escoja un personal y suba una imagen`}
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-       <User fed={34}></User>
-       <br></br>
-       <UploadFile></UploadFile>
+       <User fed={34} setUser={setUser} file={file} setFile={setFile}></User>
       </Modal>
   </div>
 };
-export default Task;
+export default Service;

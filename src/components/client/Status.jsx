@@ -14,7 +14,7 @@ const Status = () => {
     <>
       {contextHolder}
       <Button type="primary" onClick={openNotification}>
-        Open the notification box
+        Notificacion para mostrar
       </Button>
     </>
   );

@@ -208,7 +208,6 @@ const TableAnt = () => {
       width: "10%",
       render: (text, record) => (
         <Space>
-          <Tooltip title="search">
             <Button
               type="primary"
               ghost
@@ -218,7 +217,6 @@ const TableAnt = () => {
             >
               Ver
             </Button>
-          </Tooltip>
           <Popconfirm
             title="Eliminar"
             description="¿Seguro que desea eliminar?"
@@ -246,6 +244,7 @@ const TableAnt = () => {
           </Popconfirm>
         </Space>
       ),
+      key: "Accion",
     },
   ];
 
@@ -284,7 +283,7 @@ const TableAnt = () => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={getData} scroll={{
+      <Table columns={columns} dataSource={getData}  rowKey="id" scroll={{
       x: 'auto',
     }}/>
       <Modal
