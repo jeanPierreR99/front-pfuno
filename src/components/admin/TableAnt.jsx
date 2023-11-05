@@ -1,7 +1,7 @@
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { Button, Input, Space, Table, Tooltip, Popconfirm, Modal } from "antd";
+import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
 import axios from "axios";
 
 const TableAnt = () => {
@@ -141,23 +141,21 @@ const TableAnt = () => {
       ),
   });
 
-  const showPopconfirm = (key) => {
+  const showPopconfirm = (record) => {
     // setOpen(true);
-    setOpen({ ...open, [key]: true });
+    setOpen(record.key);
   };
 
-  const handleOk = (key) => {
+  const handleOk = async(key) => {
     setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen({ ...open, [key]: false });
+    try{
+      await new Promise((resolve) => setTimeout((resolve), 2000));
+    }catch(error){
+      console.error(error)
+    }
+      setOpen(false);
       setConfirmLoading(false);
       success();
-    }, 2000);
-  };
-
-  const handleCancel = (key) => {
-    console.log("Clicked cancel button");
-    setOpen({ ...open, [key]: false });
   };
 
   const success = () => {
@@ -166,7 +164,7 @@ const TableAnt = () => {
     });
   };
 
-  const handleAddClick = (record) => {
+  const handleView = (record) => {
     setOpenModal(true);
     setSelectedRowData(record);
   };
@@ -207,42 +205,40 @@ const TableAnt = () => {
       title: "Acción",
       width: "10%",
       render: (text, record) => (
-        <Space>
-            <Button
-              type="primary"
-              ghost
-              onClick={() => {
-                handleAddClick(record);
-              }}
-            >
-              Ver
-            </Button>
-          <Popconfirm
-            title="Eliminar"
-            description="¿Seguro que desea eliminar?"
-            open={open[record.id]}
-            onConfirm={() => {
-              handleOk(record.id);
-            }}
-            okButtonProps={{
-              loading: confirmLoading,
-            }}
-            onCancel={() => {
-              handleCancel(record.id);
-            }}
-          >
-            <Button
-              type="primary"
-              danger
-              ghost
-              onClick={() => {
-                showPopconfirm(record.id);
-              }}
-            >
-              Eliminar
-            </Button>
-          </Popconfirm>
-        </Space>
+
+            <Dropdown
+            trigger={"click"}
+          overlay={
+            <Menu>
+              <Menu.Item key="1" onClick={() => handleView(record)}>
+                <EyeOutlined /> Ver
+              </Menu.Item>
+              <Menu.Item key="2" onClick={() => handleEdit(record)}>
+                <EditOutlined /> Editar
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Popconfirm
+                  title="¿Seguro que desea eliminar?"
+                  visible={open == record.key}
+                  onConfirm={() => handleOk(record)}
+                  okButtonProps={{
+                    style:{background:"red"}
+                  }}
+                  okText={confirmLoading ? 'Eliminando...' : 'Sí'}
+                 
+                >
+                  <a>
+                    {confirmLoading ? 'Eliminando...' : <DeleteOutlined />} Eliminar
+                  </a>
+                </Popconfirm>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button onClick={() => showPopconfirm(record)}>
+          <MoreOutlined />
+          </Button>
+        </Dropdown>
       ),
       key: "Accion",
     },
