@@ -1,8 +1,9 @@
-import TableAnt from "./TableAnt"
-const AppClient =()=>(
+import Ref from "./Ref"
+import TableCampus from "./TableCampus";
+const AppAdmin =()=>(
     <div className='content'>
-    <TableAnt ></TableAnt>
+    <TableCampus />
     </div>
 )
 
-export default AppClient;
+export default AppAdmin;

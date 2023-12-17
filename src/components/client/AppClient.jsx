@@ -3,9 +3,11 @@ import { Col, Row } from 'antd';
 import Tick from './Tick';
 import Service from './Service';
 import Status from './Status';
-const AppAdmin = () => (
+import DemoConversionDagreGraph from '../graph/Graph';
+import DemoDecompositionTreeGraph from '../graph/Graph';
+const AppClient = () => (
   <div className='content'>
-  <Row gutter={16}>
+  <Row gutter={16} style={{width:'100%'}}>
     <Col md={11} lg={7} sm={12} xs={24} style={{ marginBottom: '16px' }}>
     <Tick></Tick>
     </Col>
@@ -19,4 +21,4 @@ const AppAdmin = () => (
   </div>
 );
 
-export default AppAdmin;
+export default AppClient;

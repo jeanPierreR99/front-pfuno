@@ -5,7 +5,7 @@ import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "
 import axios from "axios";
 import Ref from "./Ref";
 
-const TableAnt = () => {
+const TableRoles = () => {
   const [getData, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -245,45 +245,18 @@ const TableAnt = () => {
     },
   ];
 
-  // const data = [
-  //   {
-  //     key: "1",
-  //     name: "John Brown",
-  //     age: 32,
-  //     address: "New York No. 1 Lake Park",
-  //   },
-  //   {
-  //     key: "2",
-  //     name: "Joe Black",
-  //     age: 42,
-  //     address: "London No. 1 Lake Park",
-  //   },
-  //   {
-  //     key: "3",
-  //     name: "Jim Green",
-  //     age: 32,
-  //     address: "Sydney No. 1 Lake Park",
-  //   },
-  //   {
-  //     key: "4",
-  //     name: "Jim Red",
-  //     age: 32,
-  //     address: "London No. 2 Lake Park",
-  //   },
-  //   {
-  //     key: "5",
-  //     name: "Jim Red",
-  //     age: 2,
-  //     address: "London No. 2 Lake Park",
-  //   },
-  // ];
-
   return (
     <div>
       <Ref></Ref>
-      <Table columns={columns} dataSource={getData}  rowKey="id" scroll={{
+      <div className="content-table">
+        <div className="flex">
+        <span className="title-table">Roles y privilegios</span>
+        <Button type="primary">+ Agregar</Button>
+        </div>
+      <Table className="table" columns={columns} dataSource={getData}  rowKey="id" scroll={{
       x: 'auto',
     }}/>
+    </div>
       <Modal
         title="Características"
         open={openModal}
@@ -294,9 +267,6 @@ const TableAnt = () => {
           </Button>,
         ]}
       >
-        {/* <p><strong>Nombre:</strong> {selectedRowData.name}</p>
-        <p><strong>Edad:</strong> {selectedRowData.username}</p>
-        <p><strong>Dirección:</strong> {selectedRowData.email}</p> */}
         <table className="tableDescription">
           <tbody>
             <tr>
@@ -359,4 +329,4 @@ const TableAnt = () => {
     </div>
   );
 };
-export default TableAnt;
+export default TableRoles;
