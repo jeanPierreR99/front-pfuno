@@ -199,6 +199,8 @@ const TableBinnacle = () => {
       key: "name",
       width: "20%",
       ...getColumnSearchProps("name"),
+      sorter: (a, b) => a.name.length - b.name.length,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Código Postal",

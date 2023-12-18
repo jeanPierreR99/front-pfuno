@@ -4,6 +4,7 @@ import Highlighter from "react-highlight-words";
 import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
 import axios from "axios";
 import Ref from "./Ref";
+import { API_URL } from "../../constants";
 
 const ProfilePersonal = () => {
   const [getData, setData] = useState([]);
@@ -16,15 +17,25 @@ const ProfilePersonal = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const storedUser = localStorage.getItem("user");
+      const storedUserParse = JSON.parse(storedUser)
+      let token = ""
+      if (storedUserParse) {
+        token = storedUserParse.token
+        console.log(token)
+      }
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        setData(response.data);
+        const response = await axios.get(`${API_URL}/api/person/all`, {
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          }});
+        setData(response.data.data);
+        console.log(response.data.data)
       } catch (error) {
-        console.error("error .......", error);
+        console.error('Hubo un error al obtener los datos:', error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -176,31 +187,37 @@ const ProfilePersonal = () => {
 
   const columns = [
     {
-      title: "Nombre",
-      dataIndex: "name",
-      key: "name",
+      title: "DNI",
+      dataIndex: "dni",
+      key: "dni",
       width: "20%",
-      ...getColumnSearchProps("name"),
+      ...getColumnSearchProps("dni"),
     },
     {
-      title: "Código Postal",
-      dataIndex: "address.zipcode",
-      key: "address.zipcode",
+      title: "Nombres ",
+      dataIndex: "first_name",
+      key: "first_name",
       width: "10%",
-      ...getColumnSearchProps("address.zipcode"),
-      render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : 'No disponible'}</span>
-      ),
     },
-    
     {
-      title: "Correo",
-      dataIndex: "email",
-      key: "email",
+      title: "Apellidos ",
+      dataIndex: "last_name",
+      key: "last_name",
+      width: "10%",
+    },
+    {
+      title: "Cumpleaños",
+      dataIndex: "birthdate",
+      key: "birthdate",
       width: "20%",
-      ...getColumnSearchProps("email"),
-      sorter: (a, b) => a.email.length - b.email.length,
+      sorter: (a, b) => a.birthdate.length - b.birthdate.length,
       sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Dirección ",
+      dataIndex: "address",
+      key: "address",
+      width: "10%",
     },
     {
       title: "Acción",
@@ -217,7 +234,7 @@ const ProfilePersonal = () => {
               <Menu.Item key="2" onClick={() => handleEdit(record)}>
                 <EditOutlined /> Editar
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key="3" style={{color:'red'}}>
                 <Popconfirm
                   title="¿Seguro que desea eliminar?"
                   visible={open == record.key}

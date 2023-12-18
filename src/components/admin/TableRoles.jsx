@@ -30,7 +30,7 @@ const TableRoles = () => {
             'Authorization': `Bearer ${token}` 
           }});
         setData(response.data.data);
-        console.log(getData)
+        console.log(response.data.data)
       } catch (error) {
         console.error('Hubo un error al obtener los datos:', error);
       }

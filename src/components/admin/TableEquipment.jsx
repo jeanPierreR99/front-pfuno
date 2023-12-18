@@ -20,6 +20,7 @@ import {
 } from "antd";
 import axios from "axios";
 import Ref from "./Ref";
+import { API_URL } from "../../constants";
 
 const TableEquipment = () => {
   const [getData, setData] = useState([]);
@@ -29,18 +30,30 @@ const TableEquipment = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura y cierre del modal
   const [selectedRowData, setSelectedRowData] = useState({});
+  const [countEquit, setCountEquit] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
+      const storedUser = localStorage.getItem("user");
+      const storedUserParse = JSON.parse(storedUser)
+      let token = ""
+      if (storedUserParse) {
+        token = storedUserParse.token
+        console.log(token)
+      }
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        setData(response.data);
+        const response = await axios.get(`${API_URL}/api/network/all/resume`, {
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          }});
+        setData(response.data.data);
+        setCountEquit(response.data.data.length)
+        console.log(response.data.data)
       } catch (error) {
-        console.error("error .......", error);
+        console.error('Hubo un error al obtener los datos:', error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -195,29 +208,51 @@ const TableEquipment = () => {
   const columns = [
     {
       title: "Nombre",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "campus_name",
+      key: "campus_name",
       width: "20%",
-      ...getColumnSearchProps("name"),
+      sorter: (a, b) => a.campus_name.length - b.campus_name.length,
+      sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps("campus_name"),
     },
     {
-      title: "Código Postal",
-      dataIndex: "address.zipcode",
-      key: "address.zipcode",
+      title: "Dependencia",
+      dataIndex: "dependendy_name",
+      key: "dependendy_name",
+      width: "30%",
+      sorter: (a, b) => a.dependendy_name.length - b.dependendy_name.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "IP",
+      dataIndex: "ip_address",
+      key: "ip_address",
+      width: "20%",
+      sorter: (a, b) => a.ip_address.length - b.ip_address.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Piso",
+      dataIndex: "number_floor",
+      key: "number_floor",
+      width: "5%",
+      sorter: (a, b) => a.number_floor.length - b.number_floor.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Tipo de conexión",
+      dataIndex: "type_connection",
+      key: "type_connection",
       width: "10%",
-      ...getColumnSearchProps("address.zipcode"),
-      render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : "No disponible"}</span>
-      ),
+      sorter: (a, b) => a.type_connection.length - b.type_connection.length,
+      sortDirections: ["descend", "ascend"],
     },
-
     {
-      title: "Correo",
-      dataIndex: "email",
-      key: "email",
+      title: "Zona",
+      dataIndex: "zone_name",
+      key: "zone_name",
       width: "20%",
-      ...getColumnSearchProps("email"),
-      sorter: (a, b) => a.email.length - b.email.length,
+      sorter: (a, b) => a.zone_name.length - b.zone_name.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -267,7 +302,7 @@ const TableEquipment = () => {
       <Ref></Ref>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Equipos informáticos</span>
+          <span className="title-table">Equipos informáticos {countEquit}</span>
           <Button type="primary">+ Agregar</Button>
         </div>
         <Table

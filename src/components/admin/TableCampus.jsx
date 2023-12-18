@@ -1,14 +1,13 @@
 import { SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
+import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown, Badge } from "antd";
 import axios from "axios";
 import Ref from "./Ref";
+import { API_URL } from "../../constants";
 
 const TableCampus = () => {
   const [getData, setData] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura y cierre del modal
@@ -16,131 +15,27 @@ const TableCampus = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const storedUser = localStorage.getItem("user");
+      const storedUserParse = JSON.parse(storedUser)
+      let token = ""
+      if (storedUserParse) {
+        token = storedUserParse.token
+        console.log(token)
+      }
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        setData(response.data);
+        const response = await axios.get(`${API_URL}/api/campus/all`, {
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          }});
+        setData(response.data.data);
+        console.log(response.data.data)
       } catch (error) {
-        console.error("error .......", error);
+        console.error('Hubo un error al obtener los datos:', error);
       }
     };
+
     fetchData();
   }, []);
-
-  const searchInput = useRef(null);
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText("");
-  };
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      close,
-    }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: "block",
-          }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({
-                closeDropdown: false,
-              });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? "#1677ff" : undefined,
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-  (record[dataIndex] ? record[dataIndex].toString().toLowerCase() : '')
-    .includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{
-            backgroundColor: "#ffc069",
-            padding: 0,
-          }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
-      ) : (
-        text
-      ),
-  });
 
   const showPopconfirm = (record) => {
     // setOpen(true);
@@ -180,27 +75,47 @@ const TableCampus = () => {
       dataIndex: "name",
       key: "name",
       width: "20%",
-      ...getColumnSearchProps("name"),
-    },
-    {
-      title: "Código Postal",
-      dataIndex: "address.zipcode",
-      key: "address.zipcode",
-      width: "10%",
-      ...getColumnSearchProps("address.zipcode"),
-      render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : 'No disponible'}</span>
-      ),
-    },
-    
-    {
-      title: "Correo",
-      dataIndex: "email",
-      key: "email",
-      width: "20%",
-      ...getColumnSearchProps("email"),
-      sorter: (a, b) => a.email.length - b.email.length,
+      sorter: (a, b) => a.name.length - b.name.length,
       sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Abreviación",
+      dataIndex: "abbreviation",
+      key: "abbreviation",
+      width: "10%",
+      sorter: (a, b) => a.abbreviation.length - b.abbreviation.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Dirección",
+      dataIndex: "address",
+      key: "address",
+      width: "20%",
+      sorter: (a, b) => a.address.length - b.address.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Estado",
+      dataIndex: "state",
+      key: "state",
+      width: "20%",
+      sorter: (a, b) => a.state.length - b.state.length,
+      sortDirections: ["descend", "ascend"],
+      render: (text, record) => (
+        <span>{record.address ? <Badge
+          className="site-badge-count-109"
+          count="habilitado"
+          style={{
+            backgroundColor: '#52c41a',
+          }}
+        /> : <Badge
+        className="site-badge-count-109"
+        count="desabilitado"
+        style={{
+          backgroundColor: '#faad14',
+        }}
+      />}</span>
+      ),
     },
     {
       title: "Acción",
