@@ -4,6 +4,7 @@ import Highlighter from "react-highlight-words";
 import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
 import axios from "axios";
 import Ref from "./Ref";
+import { API_URL } from "../../constants";
 
 const TableRoles = () => {
   const [getData, setData] = useState([]);
@@ -16,17 +17,28 @@ const TableRoles = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const storedUser = localStorage.getItem("user");
+      const storedUserParse = JSON.parse(storedUser)
+      let token = ""
+      if (storedUserParse) {
+        token = storedUserParse.token
+        console.log(token)
+      }
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        setData(response.data);
+        const response = await axios.get(`${API_URL}/api/users/all`, {
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          }});
+        setData(response.data.data);
+        console.log(getData)
       } catch (error) {
-        console.error("error .......", error);
+        console.error('Hubo un error al obtener los datos:', error);
       }
     };
+
     fetchData();
   }, []);
+
 
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {

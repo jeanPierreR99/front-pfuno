@@ -1,7 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link,} from 'react-router-dom';
 
 const Ref = () => {
+  const closeSession = () =>{
+    localStorage.clear()
+  }
   return (
       <nav>
         <ul>
@@ -23,6 +26,7 @@ const Ref = () => {
           <li>
             <Link to="/admin/binnacle">BITACORA</Link>
           </li>
+          <li><button onClick={closeSession} >salir</button></li>
         </ul>
       </nav>
   );

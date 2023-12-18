@@ -1,7 +1,23 @@
-import { SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  EyeOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  MoreOutlined,
+} from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
+import {
+  Button,
+  Input,
+  Space,
+  Table,
+  Popconfirm,
+  Modal,
+  Menu,
+  Dropdown,
+} from "antd";
 import axios from "axios";
 import Ref from "./Ref";
 
@@ -119,8 +135,10 @@ const TableEquipment = () => {
       />
     ),
     onFilter: (value, record) =>
-  (record[dataIndex] ? record[dataIndex].toString().toLowerCase() : '')
-    .includes(value.toLowerCase()),
+      (record[dataIndex]
+        ? record[dataIndex].toString().toLowerCase()
+        : ""
+      ).includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -147,16 +165,16 @@ const TableEquipment = () => {
     setOpen(record.key);
   };
 
-  const handleOk = async(key) => {
+  const handleOk = async (key) => {
     setConfirmLoading(true);
-    try{
-      await new Promise((resolve) => setTimeout((resolve), 2000));
-    }catch(error){
-      console.error(error)
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    } catch (error) {
+      console.error(error);
     }
-      setOpen(false);
-      setConfirmLoading(false);
-      success();
+    setOpen(false);
+    setConfirmLoading(false);
+    success();
   };
 
   const success = () => {
@@ -189,10 +207,10 @@ const TableEquipment = () => {
       width: "10%",
       ...getColumnSearchProps("address.zipcode"),
       render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : 'No disponible'}</span>
+        <span>{record.address ? record.address.zipcode : "No disponible"}</span>
       ),
     },
-    
+
     {
       title: "Correo",
       dataIndex: "email",
@@ -206,9 +224,8 @@ const TableEquipment = () => {
       title: "Acción",
       width: "10%",
       render: (text, record) => (
-
-            <Dropdown
-            trigger={"click"}
+        <Dropdown
+          trigger={"click"}
           overlay={
             <Menu>
               <Menu.Item key="1" onClick={() => handleView(record)}>
@@ -217,19 +234,19 @@ const TableEquipment = () => {
               <Menu.Item key="2" onClick={() => handleEdit(record)}>
                 <EditOutlined /> Editar
               </Menu.Item>
-              <Menu.Item key="3" style={{color:'red'}}>
+              <Menu.Item key="3" style={{ color: "red" }}>
                 <Popconfirm
                   title="¿Seguro que desea eliminar?"
                   visible={open == record.key}
                   onConfirm={() => handleOk(record)}
                   okButtonProps={{
-                    style:{background:"red"}
+                    style: { background: "red" },
                   }}
-                  okText={confirmLoading ? 'Eliminando...' : 'Sí'}
-                 
+                  okText={confirmLoading ? "Eliminando..." : "Sí"}
                 >
                   <a>
-                    {confirmLoading ? 'Eliminando...' : <DeleteOutlined />} Eliminar
+                    {confirmLoading ? "Eliminando..." : <DeleteOutlined />}{" "}
+                    Eliminar
                   </a>
                 </Popconfirm>
               </Menu.Item>
@@ -237,7 +254,7 @@ const TableEquipment = () => {
           }
         >
           <Button onClick={() => showPopconfirm(record)}>
-          <MoreOutlined />
+            <MoreOutlined />
           </Button>
         </Dropdown>
       ),
@@ -250,13 +267,19 @@ const TableEquipment = () => {
       <Ref></Ref>
       <div className="content-table">
         <div className="flex">
-        <span className="title-table">Equipos informáticos</span>
-        <Button type="primary">+ Agregar</Button>
+          <span className="title-table">Equipos informáticos</span>
+          <Button type="primary">+ Agregar</Button>
         </div>
-      <Table className="table" columns={columns} dataSource={getData}  rowKey="id" scroll={{
-      x: 'auto',
-    }}/>
-    </div>
+        <Table
+          className="table"
+          columns={columns}
+          dataSource={getData}
+          rowKey="id"
+          scroll={{
+            x: "auto",
+          }}
+        />
+      </div>
       <Modal
         title="Características"
         open={openModal}
@@ -282,23 +305,41 @@ const TableEquipment = () => {
               <td>{selectedRowData.email}</td>
             </tr>
             <tr>
-              <th colSpan={2} style={{textAlign:'center'}}>Dirección</th>
+              <th colSpan={2} style={{ textAlign: "center" }}>
+                Dirección
+              </th>
             </tr>
             <tr>
               <th>Calle</th>
-              <td>{selectedRowData.address? selectedRowData.address.street: "No disponible"}</td>
+              <td>
+                {selectedRowData.address
+                  ? selectedRowData.address.street
+                  : "No disponible"}
+              </td>
             </tr>
             <tr>
               <th>Suite</th>
-              <td>{selectedRowData.address? selectedRowData.address.suite: "No disponlible"}</td>
+              <td>
+                {selectedRowData.address
+                  ? selectedRowData.address.suite
+                  : "No disponlible"}
+              </td>
             </tr>
             <tr>
               <th>Ciudad</th>
-              <td>{selectedRowData.address? selectedRowData.address.city: "No disponlible"}</td>
+              <td>
+                {selectedRowData.address
+                  ? selectedRowData.address.city
+                  : "No disponlible"}
+              </td>
             </tr>
             <tr>
               <th>zip doce</th>
-              <td>{selectedRowData.address? selectedRowData.address.zipcode: "No disponible"}</td>
+              <td>
+                {selectedRowData.address
+                  ? selectedRowData.address.zipcode
+                  : "No disponible"}
+              </td>
             </tr>
             <tr>
               <th>Telefono</th>
@@ -309,19 +350,33 @@ const TableEquipment = () => {
               <td>{selectedRowData.website}</td>
             </tr>
             <tr>
-              <th colSpan={2} style={{textAlign:'center'}}>Compañia</th>
+              <th colSpan={2} style={{ textAlign: "center" }}>
+                Compañia
+              </th>
             </tr>
             <tr>
               <th>nombre</th>
-              <td>{selectedRowData.company? selectedRowData.company.name: "No disponible"}</td>
+              <td>
+                {selectedRowData.company
+                  ? selectedRowData.company.name
+                  : "No disponible"}
+              </td>
             </tr>
             <tr>
               <th>catchPhrase</th>
-              <td>{selectedRowData.company? selectedRowData.company.catchPhrase: "No disponible"}</td>
+              <td>
+                {selectedRowData.company
+                  ? selectedRowData.company.catchPhrase
+                  : "No disponible"}
+              </td>
             </tr>
             <tr>
               <th>bs</th>
-              <td>{selectedRowData.company? selectedRowData.company.bs: "No disponible"}</td>
+              <td>
+                {selectedRowData.company
+                  ? selectedRowData.company.bs
+                  : "No disponible"}
+              </td>
             </tr>
           </tbody>
         </table>
