@@ -17,9 +17,9 @@ import {
   Modal,
   Menu,
   Dropdown,
+  Badge,
 } from "antd";
 import axios from "axios";
-import Ref from "./Ref";
 import { API_URL } from "../../constants";
 
 const TableEquipment = () => {
@@ -30,27 +30,28 @@ const TableEquipment = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura y cierre del modal
   const [selectedRowData, setSelectedRowData] = useState({});
-  const [countEquit, setCountEquit] = useState(null)
+  const [countEquit, setCountEquit] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const storedUser = localStorage.getItem("user");
-      const storedUserParse = JSON.parse(storedUser)
-      let token = ""
+      const storedUserParse = JSON.parse(storedUser);
+      let token = "";
       if (storedUserParse) {
-        token = storedUserParse.token
-        console.log(token)
+        token = storedUserParse.token;
+        console.log(token);
       }
       try {
-        const response = await axios.get(`${API_URL}/api/network/all/resume`, {
+        const response = await axios.get(`${API_URL}/api/device/all/resume`, {
           headers: {
-            'Authorization': `Bearer ${token}` 
-          }});
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setData(response.data.data);
-        setCountEquit(response.data.data.length)
-        console.log(response.data.data)
+        setCountEquit(response.data.data.length);
+        console.log(response.data.data);
       } catch (error) {
-        console.error('Hubo un error al obtener los datos:', error);
+        console.error("Hubo un error al obtener los datos:", error);
       }
     };
 
@@ -207,53 +208,57 @@ const TableEquipment = () => {
 
   const columns = [
     {
-      title: "Nombre",
-      dataIndex: "campus_name",
-      key: "campus_name",
-      width: "20%",
-      sorter: (a, b) => a.campus_name.length - b.campus_name.length,
+      title: "Código patrimonial",
+      dataIndex: "patrimonial_code",
+      key: "patrimonial_code",
+      sorter: (a, b) => a.patrimonial_code.length - b.patrimonial_code.length,
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps("campus_name"),
+      ...getColumnSearchProps("patrimonial_code"),
+    },
+    {
+      title: "Código serial",
+      dataIndex: "serial_code",
+      key: "serial_code",
+      sorter: (a, b) => a.serial_code.length - b.serial_code.length,
+      sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps("serial_code"),
     },
     {
       title: "Dependencia",
-      dataIndex: "dependendy_name",
-      key: "dependendy_name",
-      width: "30%",
-      sorter: (a, b) => a.dependendy_name.length - b.dependendy_name.length,
+      dataIndex: "dependency_device",
+      key: "dependency_device",
+      sorter: (a, b) => a.dependency_device.length - b.dependency_device.length,
       sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps("dependency_device"),
     },
     {
-      title: "IP",
-      dataIndex: "ip_address",
-      key: "ip_address",
+      title: "Estado",
+      dataIndex: "state_device",
+      key: "state_device",
       width: "20%",
-      sorter: (a, b) => a.ip_address.length - b.ip_address.length,
+      sorter: (a, b) => a.state_device.length - b.state_device.length,
       sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Piso",
-      dataIndex: "number_floor",
-      key: "number_floor",
-      width: "5%",
-      sorter: (a, b) => a.number_floor.length - b.number_floor.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Tipo de conexión",
-      dataIndex: "type_connection",
-      key: "type_connection",
-      width: "10%",
-      sorter: (a, b) => a.type_connection.length - b.type_connection.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Zona",
-      dataIndex: "zone_name",
-      key: "zone_name",
-      width: "20%",
-      sorter: (a, b) => a.zone_name.length - b.zone_name.length,
-      sortDirections: ["descend", "ascend"],
+      render: (text, record) => (
+        <span>
+          {record.state_device && record.state_device == "OPERATIVO" ? (
+            <Badge
+              className="site-badge-count-109"
+              count="OPERATIVO"
+              style={{
+                backgroundColor: "#52c41a",
+              }}
+            />
+          ) : (
+            <Badge
+              className="site-badge-count-109"
+              count="INOPERATIVO"
+              style={{
+                backgroundColor: "red",
+              }}
+            />
+          )}
+        </span>
+      ),
     },
     {
       title: "Acción",
@@ -299,7 +304,6 @@ const TableEquipment = () => {
 
   return (
     <div>
-      <Ref></Ref>
       <div className="content-table">
         <div className="flex">
           <span className="title-table">Equipos informáticos {countEquit}</span>
@@ -316,7 +320,6 @@ const TableEquipment = () => {
         />
       </div>
       <Modal
-        title="Características"
         open={openModal}
         onCancel={handleCloseModal}
         footer={[
@@ -328,89 +331,77 @@ const TableEquipment = () => {
         <table className="tableDescription">
           <tbody>
             <tr>
-              <th>Nombre</th>
-              <td>{selectedRowData.name}</td>
-            </tr>
-            <tr>
-              <th>Apellidos</th>
-              <td>{selectedRowData.username}</td>
-            </tr>
-            <tr>
-              <th>Correo</th>
-              <td>{selectedRowData.email}</td>
-            </tr>
-            <tr>
               <th colSpan={2} style={{ textAlign: "center" }}>
-                Dirección
+                Características
               </th>
             </tr>
             <tr>
-              <th>Calle</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.street
-                  : "No disponible"}
-              </td>
+              <th>Código patrimonial</th>
+              <td>{selectedRowData.patrimonial_code}</td>
             </tr>
             <tr>
-              <th>Suite</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.suite
-                  : "No disponlible"}
-              </td>
+              <th>Código serial</th>
+              <td>{selectedRowData.serial_code}</td>
             </tr>
             <tr>
-              <th>Ciudad</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.city
-                  : "No disponlible"}
-              </td>
+              <th>Marca</th>
+              <td>{selectedRowData.brand}</td>
             </tr>
             <tr>
-              <th>zip doce</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.zipcode
-                  : "No disponible"}
-              </td>
+              <th>Modelo</th>
+              <td>{selectedRowData.model_name}</td>
             </tr>
             <tr>
-              <th>Telefono</th>
-              <td>{selectedRowData.phone}</td>
+              <th>Estado</th>
+              <td style={{color:selectedRowData.state_device == "OPERATIVO"?"green":"red"}}>{selectedRowData.state_device}</td>
             </tr>
             <tr>
-              <th>Sitio web</th>
-              <td>{selectedRowData.website}</td>
+              <th>Tipo de servicio</th>
+              <td>{selectedRowData.type_device}</td>
+            </tr>
+            <tr>
+              <th>Dependencia</th>
+              <td>{selectedRowData.dependency_device}</td>
+            </tr>
+            <tr>
+              <th>Fecha de adquisición</th>
+              <td>{selectedRowData.adquisition_date}</td>
             </tr>
             <tr>
               <th colSpan={2} style={{ textAlign: "center" }}>
-                Compañia
+                Características internas
               </th>
             </tr>
             <tr>
-              <th>nombre</th>
+              <th>Procesador</th>
               <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.name
-                  : "No disponible"}
+                {selectedRowData.more_info
+                  ? selectedRowData.more_info.procesador
+                  : "N/A"}
               </td>
             </tr>
             <tr>
-              <th>catchPhrase</th>
+              <th>Memoria ram</th>
               <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.catchPhrase
-                  : "No disponible"}
+                {selectedRowData.more_info
+                  ? selectedRowData.more_info.ram
+                  : "N/A"}
               </td>
             </tr>
             <tr>
-              <th>bs</th>
+              <th>Almacenamiento</th>
               <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.bs
-                  : "No disponible"}
+                {selectedRowData.more_info
+                  ? selectedRowData.more_info.almacenamiento
+                  : "N/A"}
+              </td>
+            </tr>
+            <tr>
+              <th>Tipo de disco</th>
+              <td>
+                {selectedRowData.more_info
+                  ? selectedRowData.more_info.tipo_disco
+                  : "N/A"}
               </td>
             </tr>
           </tbody>

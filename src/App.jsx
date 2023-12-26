@@ -1,14 +1,20 @@
-import React from 'react';
-import Routes from './components/routes/Routes'
-import { BrowserRouter } from 'react-router-dom';
-import Header from './components/client/Header'
+import React from "react";
+import RouteMain from "./components/routes/RouteMain";
+import { BrowserRouter } from "react-router-dom";
+import {
+  LoginProvider,
+  RoleProvider,
+} from "./components/routes/context/Context.provider";
 const App = () => (
-  <BrowserRouter>
-    <div className='App app'>
-      <Header></Header>
-       <Routes></Routes>
-    </div> 
-  </BrowserRouter>
+  <LoginProvider>
+    <RoleProvider>
+      <BrowserRouter>
+        <div className="App app">
+          <RouteMain></RouteMain>
+        </div>
+      </BrowserRouter>
+    </RoleProvider>
+  </LoginProvider>
 );
 
 export default App;

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
 import axios from "axios";
-import Ref from "./Ref";
 import { API_URL } from "../../constants";
 
 const TableRoles = () => {
@@ -259,7 +258,6 @@ const TableRoles = () => {
 
   return (
     <div>
-      <Ref></Ref>
       <div className="content-table">
         <div className="flex">
         <span className="title-table">Roles y privilegios</span>

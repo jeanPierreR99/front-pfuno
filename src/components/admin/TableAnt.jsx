@@ -19,7 +19,6 @@ import {
   Dropdown,
 } from "antd";
 import axios from "axios";
-import Ref from "./Ref";
 
 const TableAnt = () => {
   const [getData, setData] = useState([]);
@@ -297,7 +296,6 @@ const TableAnt = () => {
 
   return (
     <div>
-      <Ref></Ref>
       <Table
         columns={columns}
         dataSource={getData}

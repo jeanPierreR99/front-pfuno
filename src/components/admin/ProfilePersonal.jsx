@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
 import axios from "axios";
-import Ref from "./Ref";
 import { API_URL } from "../../constants";
 
 const ProfilePersonal = () => {
@@ -264,7 +263,6 @@ const ProfilePersonal = () => {
 
   return (
     <div>
-      <Ref></Ref>
       <div className="content-table">
         <div className="flex">
         <span className="title-table">Datos personales</span>

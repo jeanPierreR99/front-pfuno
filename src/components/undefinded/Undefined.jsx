@@ -1,11 +1,10 @@
 import React from 'react';
-
-const Undefined = () => {
-  return (
-  <div>
-    <h1>SIN ACCESO</h1>
-  </div>
-  );
-};
-
-export default Undefined;
+import { Button, Result } from 'antd';
+const DefaultPage = () => (
+  <Result
+    status="403"
+    title="403"
+    subTitle="Sorry, you are not authorized to access this page."
+  />
+);
+export default DefaultPage;

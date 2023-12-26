@@ -17,10 +17,68 @@ import {
   Modal,
   Menu,
   Dropdown,
+  Badge,
 } from "antd";
 import axios from "axios";
 
-const TableBinnacle = () => {
+const jsonBorrar = [
+  {
+    name_personal: "jean1",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 1,
+  },
+  {
+    name_personal: "jean2",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 2,
+  },
+  {
+    name_personal: "jean3",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 3,
+  },
+  {
+    name_personal: "jean4",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 1,
+  },
+  {
+    name_personal: "jean5",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 1,
+  },
+  {
+    name_personal: "jean6",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 1,
+  },
+  {
+    name_personal: "jean7",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 1,
+  },
+  {
+    name_personal: "jean8",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 3,
+  },
+  {
+    name_personal: "jean9",
+    type_support: "soporte de impresora",
+    date: "11-12-32",
+    status: 2,
+  },
+];
+
+const Request = () => {
   const [getData, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -193,37 +251,60 @@ const TableBinnacle = () => {
 
   const columns = [
     {
-      title: "Nombre",
-      dataIndex: "name",
-      key: "name",
-      width: "20%",
-      ...getColumnSearchProps("name"),
-      sorter: (a, b) => a.name.length - b.name.length,
+      title: "Personal administrativo",
+      dataIndex: "name_personal",
+      key: "name_personal",
+      ...getColumnSearchProps("name_personal"),
+    },
+    {
+      title: "Tipo de soporte",
+      dataIndex: "type_support",
+      key: "type_support",
+      ...getColumnSearchProps("type_support"),
+    },
+    {
+      title: "Fecha",
+      dataIndex: "date",
+      key: "date",
+      sorter: (a, b) => a.date.length - b.date.length,
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Código Postal",
-      dataIndex: "address.zipcode",
-      key: "address.zipcode",
-      width: "10%",
-      ...getColumnSearchProps("address.zipcode"),
+      title: "Estado",
+      dataIndex: "status",
+      key: "status",
       render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : "No disponible"}</span>
+        <span>
+          {record.status == 1 ? (
+            <Badge
+              className="site-badge-count-109"
+              count="Solicitado"
+              style={{
+                backgroundColor: "#faad14",
+              }}
+            />
+          ) : record.status == 2 ? (
+            <Badge
+              className="site-badge-count-109"
+              count="Aceptado"
+              style={{
+                backgroundColor: "#56bcc7",
+              }}
+            />
+          ) : (
+            <Badge
+              className="site-badge-count-109"
+              count="Firmado"
+              style={{
+                backgroundColor: "#52c41a",
+              }}
+            />
+          )}
+        </span>
       ),
-    },
-
-    {
-      title: "Correo",
-      dataIndex: "email",
-      key: "email",
-      width: "20%",
-      ...getColumnSearchProps("email"),
-      sorter: (a, b) => a.email.length - b.email.length,
-      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Acción",
-      width: "10%",
       render: (text, record) => (
         <Dropdown
           trigger={"click"}
@@ -232,25 +313,16 @@ const TableBinnacle = () => {
               <Menu.Item key="1" onClick={() => handleView(record)}>
                 <EyeOutlined /> Ver
               </Menu.Item>
-              <Menu.Item key="2" onClick={() => handleEdit(record)}>
-                <EditOutlined /> Editar
-              </Menu.Item>
-              <Menu.Item key="3" style={{ color: "red" }}>
-                <Popconfirm
-                  title="¿Seguro que desea eliminar?"
-                  visible={open == record.key}
-                  onConfirm={() => handleOk(record)}
-                  okButtonProps={{
-                    style: { background: "red" },
-                  }}
-                  okText={confirmLoading ? "Eliminando..." : "Sí"}
-                >
-                  <a>
-                    {confirmLoading ? "Eliminando..." : <DeleteOutlined />}{" "}
-                    Eliminar
-                  </a>
-                </Popconfirm>
-              </Menu.Item>
+              {record.status == 1 && (
+                <Menu.Item key="2">
+                  <EditOutlined /> Aceptar
+                </Menu.Item>
+              )}
+              {record.status == 2 && (
+                <Menu.Item key="2">
+                  <EditOutlined /> Firmar
+                </Menu.Item>
+              )}
             </Menu>
           }
         >
@@ -267,13 +339,12 @@ const TableBinnacle = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Bitacora de equipo informatico</span>
-          <Button type="primary">+ Agregar</Button>
+          <span className="title-table">Historial de Solicitudes</span>
         </div>
         <Table
           className="table"
           columns={columns}
-          dataSource={getData}
+          dataSource={jsonBorrar}
           rowKey="id"
           scroll={{
             x: "auto",
@@ -290,6 +361,9 @@ const TableBinnacle = () => {
           </Button>,
         ]}
       >
+        {/* <p><strong>Nombre:</strong> {selectedRowData.name}</p>
+          <p><strong>Edad:</strong> {selectedRowData.username}</p>
+          <p><strong>Dirección:</strong> {selectedRowData.email}</p> */}
         <table className="tableDescription">
           <tbody>
             <tr>
@@ -384,4 +458,4 @@ const TableBinnacle = () => {
     </div>
   );
 };
-export default TableBinnacle;
+export default Request;

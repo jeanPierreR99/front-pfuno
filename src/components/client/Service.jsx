@@ -89,6 +89,9 @@ const Service = () => {
   }
 
   return <div className='contentTask'>
+      <div className="flex" style={{marginBottom:'20px'}}>
+        <span className="title-table">Servicios activos</span>
+        </div>
   <List
     grid={{
       gutter: 16,
