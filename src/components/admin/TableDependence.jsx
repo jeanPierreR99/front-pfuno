@@ -28,6 +28,7 @@ const TableDependence = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura y cierre del modal
+  const [openModalRU, setOpenModalRU] = useState(false); // Estado para controlar la apertura y cierre del modal
   const [selectedRowData, setSelectedRowData] = useState({});
   const [countEquit, setCountEquit] = useState(null)
 
@@ -195,6 +196,15 @@ const TableDependence = () => {
     });
   };
 
+  //handlers event modal
+  //modal Register-Update
+  const handleModalRU=(action) => {
+    if(!action){
+      setOpenModalRU(action);
+      return;
+    }
+    setOpenModalRU(action);
+  };
   const handleView = (record) => {
     setOpenModal(true);
     setSelectedRowData(record);
@@ -276,8 +286,13 @@ const TableDependence = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Equipos informáticos {countEquit}</span>
-          <Button type="primary">+ Agregar</Button>
+          <span className="title-table">Dependencias {countEquit}</span>
+          <Button
+            type="primary"
+            onClick={()=>handleModalRU(true)}
+          >
+            + Agregar
+          </Button>
         </div>
         <Table
           className="table"
@@ -289,6 +304,42 @@ const TableDependence = () => {
           }}
         />
       </div>
+      <Modal
+        title="Nueva dependencia"
+        open={openModalRU}
+        onCancel={()=>handleModalRU(false)}
+        footer={[]}
+      >
+        <div className="modal-content">
+          <div className="modal-group">
+            <span>Sede</span>
+            <Input placeholder="Seleccione una Sede [fecth]" />
+          </div>
+          <div className="modal-group">
+            <span>Abreviación</span>
+            <Input />
+          </div>
+          <div className="modal-group">
+            <span>Nombre</span>
+            <Input />
+          </div>
+          <div className="modal-group">
+            <span>Telefono</span>
+            <Input />
+          </div>
+          <div className="modal-group">
+            <span>Descripción</span>
+            <Input />
+          </div>
+          <div className="modal-group">
+            <span>Ubicacion</span>
+            <Input placeholder="Seleccione una ubicacion [fecth]" />
+          </div>
+          <div className="modal-group">
+            <Button type="primary">agregar</Button>
+          </div>
+        </div>
+      </Modal>
       <Modal
         title="Características"
         open={openModal}
