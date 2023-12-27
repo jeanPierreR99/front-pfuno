@@ -266,7 +266,7 @@ const ProfilePersonal = () => {
       <div className="content-table">
         <div className="flex">
         <span className="title-table">Datos personales</span>
-        <Button type="primary">+ Agregar</Button>
+        <Button type="primary" onClick={()=>handleView}>+ Agregar</Button>
         </div>
       <Table className="table" columns={columns} dataSource={getData}  rowKey="id" scroll={{
       x: 'auto',
