@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Steps } from "antd";
+import DraggerA from "../admin/DraggerA";
 const HomeClient = () => (
     <div style={{display:'flex', flexDirection:'column', gap:'40px'}}>
     <span style={{color:'blue', opacity:'.7'}}>Pasos para realizar una solicitud</span>
@@ -46,7 +47,7 @@ const HomeClient = () => (
         },
       ]}
     />
-
+<DraggerA></DraggerA>
   </div>
 );
 export default HomeClient;

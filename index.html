@@ -1,13 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://mozilla.github.io/pdf.js/build/pdf.mjs"
+      type="module"
+    ></script>
+    <link
+      href="https://dsp.reniec.gob.pe/refirma_invoker/resources/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
     <title>Vite + React</title>
   </head>
   <body>
     <div id="root"></div>
+    <div id="addComponent"></div>
+    <script>
+      $("document").ready(function () {
+        const getArgsForEvent = async (payload) => {
+          const rq = await fetch("http://18.219.214.89/firm/args", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const body = await rq.json();
+          return body;
+          //console.log(body)
+        };
+
+        console.log("rrady");
+
+        window.addEventListener("getArguments", async (e) => {
+          console.log("getarguments");
+          const getPosition = localStorage.getItem("position");
+          const objParse = JSON.parse(getPosition);
+          let payload = {
+            file_id: "testhoja", 
+            page_number: "0",
+            exacto: 1,
+            poy: `${objParse.y}`,
+            pox: `${objParse.x}`,
+            stamp_appearance_id: "0",
+            reason: "Soy el autor del documento",
+          };
+console.log(payload)
+          let args = await getArgsForEvent(payload);
+          console.log(args);
+          dispatchEventClient('sendArguments', args.args);
+
+        });
+        window.addEventListener("invokerOk", () => {
+          console.log("todo ok ya firmo");
+        });
+        window.addEventListener("invokerCancel", (e) => {
+          alerta("El proceso de firma digital fue cancelado.", false);
+        });
+      });
+    </script>
     <script type="module" src="/src/main.jsx"></script>
+    <script src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
   </body>
 </html>

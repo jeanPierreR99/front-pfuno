@@ -223,3 +223,20 @@ max-width: 300px;
   flex-direction: column;
   gap: 12px;
 }
+.movable-container {
+  width: 446.25px;
+  height: 631.5px;
+  border: 1px solid #000;
+  position: relative;
+  overflow: hidden;
+  background-image: url("./assets/preview-doc.png");
+background-size: contain;
+}
+
+.movable {
+  width: 123.75px;
+  height: 52.5px;
+  background-color: #00f;
+  position: absolute;
+  cursor: pointer;
+}
