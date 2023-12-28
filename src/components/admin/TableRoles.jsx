@@ -1,9 +1,27 @@
-import { SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  EyeOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  MoreOutlined,
+} from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { Button, Input, Space, Table, Popconfirm, Modal, Menu, Dropdown } from "antd";
+import {
+  Button,
+  Input,
+  Space,
+  Table,
+  Popconfirm,
+  Modal,
+  Menu,
+  Dropdown,
+  Badge
+} from "antd";
 import axios from "axios";
 import { API_URL } from "../../constants";
+import ModalAddRole from "./ModalAddRole";
 
 const TableRoles = () => {
   const [getData, setData] = useState([]);
@@ -12,32 +30,31 @@ const TableRoles = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura y cierre del modal
-  const [selectedRowData, setSelectedRowData] = useState({});
+
+  const fetchData = async () => {
+    const storedUser = localStorage.getItem("user");
+    const storedUserParse = JSON.parse(storedUser);
+    let token = "";
+    if (storedUserParse) {
+      token = storedUserParse.token;
+      console.log(token);
+    }
+    try {
+      const response = await axios.get(`${API_URL}/api/users/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setData(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.error("Hubo un error al obtener los datos:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const storedUser = localStorage.getItem("user");
-      const storedUserParse = JSON.parse(storedUser)
-      let token = ""
-      if (storedUserParse) {
-        token = storedUserParse.token
-        console.log(token)
-      }
-      try {
-        const response = await axios.get(`${API_URL}/api/users/all`, {
-          headers: {
-            'Authorization': `Bearer ${token}` 
-          }});
-        setData(response.data.data);
-        console.log(response.data.data)
-      } catch (error) {
-        console.error('Hubo un error al obtener los datos:', error);
-      }
-    };
-
     fetchData();
   }, []);
-
 
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -130,8 +147,10 @@ const TableRoles = () => {
       />
     ),
     onFilter: (value, record) =>
-  (record[dataIndex] ? record[dataIndex].toString().toLowerCase() : '')
-    .includes(value.toLowerCase()),
+      (record[dataIndex]
+        ? record[dataIndex].toString().toLowerCase()
+        : ""
+      ).includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
@@ -158,16 +177,16 @@ const TableRoles = () => {
     setOpen(record.key);
   };
 
-  const handleOk = async(key) => {
+  const handleOk = async (key) => {
     setConfirmLoading(true);
-    try{
-      await new Promise((resolve) => setTimeout((resolve), 2000));
-    }catch(error){
-      console.error(error)
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    } catch (error) {
+      console.error(error);
     }
-      setOpen(false);
-      setConfirmLoading(false);
-      success();
+    setOpen(false);
+    setConfirmLoading(false);
+    success();
   };
 
   const success = () => {
@@ -176,71 +195,91 @@ const TableRoles = () => {
     });
   };
 
-  const handleView = (record) => {
+  const handleView = () => {
     setOpenModal(true);
-    setSelectedRowData(record);
-  };
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setSelectedRowData({});
   };
 
   const columns = [
     {
-      title: "Nombre",
-      dataIndex: "name",
-      key: "name",
-      width: "20%",
-      ...getColumnSearchProps("name"),
-    },
-    {
-      title: "Código Postal",
-      dataIndex: "address.zipcode",
-      key: "address.zipcode",
-      width: "10%",
-      ...getColumnSearchProps("address.zipcode"),
+      title: "DNI",
+      dataIndex: "person.dni",
+      key: "person.dni",
+      ...getColumnSearchProps("person.dni"),
       render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : 'No disponible'}</span>
+        <span>{record.person.dni ? record.person.dni : "No disponible"}</span>
       ),
     },
-    
     {
-      title: "Correo",
-      dataIndex: "email",
-      key: "email",
-      width: "20%",
-      ...getColumnSearchProps("email"),
-      sorter: (a, b) => a.email.length - b.email.length,
-      sortDirections: ["descend", "ascend"],
+      title: "Nombres",
+      dataIndex: "person.first_name",
+      key: "person.first_name",
+      ...getColumnSearchProps("person.first_name"),
+      render: (text, record) => (
+        <span>{record.person.first_name ? record.person.first_name : "No disponible"}</span>
+      ),
+    },
+    {
+      title: "Apellidos",
+      dataIndex: "person.last_name",
+      key: "person.last_name",
+      ...getColumnSearchProps("person.last_name"),
+      render: (text, record) => (
+        <span>{record.person.last_name ? record.person.last_name : "No disponible"}</span>
+      ),
+    },
+    {
+      title: "Rol",
+      dataIndex: "role_name",
+      key: "role_name",
+      ...getColumnSearchProps("role_name"),
+    },
+    {
+      title: "Estado",
+      dataIndex: "active",
+      key: "active",
+      render: (text, record) => (
+        record.active ==true?( <Badge
+          className="site-badge-count-109"
+          count="Habilitado"
+          style={{
+            backgroundColor: "#52c41a",
+          }}
+        />):
+        ( <Badge
+          className="site-badge-count-109"
+          count="Desabilitado"
+          style={{
+            backgroundColor: "#faad14",
+          }}
+        />)
+      ),
     },
     {
       title: "Acción",
-      width: "10%",
       render: (text, record) => (
-
-            <Dropdown
-            trigger={"click"}
+        <Dropdown
+          trigger={"click"}
           overlay={
             <Menu>
-              <Menu.Item key="1" onClick={() => handleView(record)}>
+              <Menu.Item key="1">
                 <EyeOutlined /> Ver
               </Menu.Item>
               <Menu.Item key="2" onClick={() => handleEdit(record)}>
                 <EditOutlined /> Editar
               </Menu.Item>
-              <Menu.Item key="3" style={{color:'red'}}>
+              <Menu.Item key="3" style={{ color: "red" }}>
                 <Popconfirm
                   title="¿Seguro que desea eliminar?"
                   visible={open == record.key}
                   onConfirm={() => handleOk(record)}
                   okButtonProps={{
-                    style:{background:"red"}
+                    style: { background: "red" },
                   }}
-                  okText={confirmLoading ? 'Eliminando...' : 'Sí'}
-                 
+                  okText={confirmLoading ? "Eliminando..." : "Sí"}
                 >
                   <a>
-                    {confirmLoading ? 'Eliminando...' : <DeleteOutlined />} Eliminar
+                    {confirmLoading ? "Eliminando..." : <DeleteOutlined />}{" "}
+                    Eliminar
                   </a>
                 </Popconfirm>
               </Menu.Item>
@@ -248,7 +287,7 @@ const TableRoles = () => {
           }
         >
           <Button onClick={() => showPopconfirm(record)}>
-          <MoreOutlined />
+            <MoreOutlined />
           </Button>
         </Dropdown>
       ),
@@ -260,82 +299,22 @@ const TableRoles = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-        <span className="title-table">Roles y privilegios</span>
-        <Button type="primary">+ Agregar</Button>
+          <span className="title-table">Roles y privilegios</span>
+          <Button type="primary" onClick={() => handleView()}>+ Nuevo</Button>
         </div>
-      <Table className="table" columns={columns} dataSource={getData}  rowKey="id" scroll={{
-      x: 'auto',
-    }}/>
-    </div>
-      <Modal
-        title="Características"
-        open={openModal}
-        onCancel={handleCloseModal}
-        footer={[
-          <Button key="close" onClick={handleCloseModal}>
-            Cerrar
-          </Button>,
-        ]}
-      >
-        <table className="tableDescription">
-          <tbody>
-            <tr>
-              <th>Nombre</th>
-              <td>{selectedRowData.name}</td>
-            </tr>
-            <tr>
-              <th>Apellidos</th>
-              <td>{selectedRowData.username}</td>
-            </tr>
-            <tr>
-              <th>Correo</th>
-              <td>{selectedRowData.email}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} style={{textAlign:'center'}}>Dirección</th>
-            </tr>
-            <tr>
-              <th>Calle</th>
-              <td>{selectedRowData.address? selectedRowData.address.street: "No disponible"}</td>
-            </tr>
-            <tr>
-              <th>Suite</th>
-              <td>{selectedRowData.address? selectedRowData.address.suite: "No disponlible"}</td>
-            </tr>
-            <tr>
-              <th>Ciudad</th>
-              <td>{selectedRowData.address? selectedRowData.address.city: "No disponlible"}</td>
-            </tr>
-            <tr>
-              <th>zip doce</th>
-              <td>{selectedRowData.address? selectedRowData.address.zipcode: "No disponible"}</td>
-            </tr>
-            <tr>
-              <th>Telefono</th>
-              <td>{selectedRowData.phone}</td>
-            </tr>
-            <tr>
-              <th>Sitio web</th>
-              <td>{selectedRowData.website}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} style={{textAlign:'center'}}>Compañia</th>
-            </tr>
-            <tr>
-              <th>nombre</th>
-              <td>{selectedRowData.company? selectedRowData.company.name: "No disponible"}</td>
-            </tr>
-            <tr>
-              <th>catchPhrase</th>
-              <td>{selectedRowData.company? selectedRowData.company.catchPhrase: "No disponible"}</td>
-            </tr>
-            <tr>
-              <th>bs</th>
-              <td>{selectedRowData.company? selectedRowData.company.bs: "No disponible"}</td>
-            </tr>
-          </tbody>
-        </table>
-      </Modal>
+        <Table
+          className="table"
+          columns={columns}
+          dataSource={getData}
+          rowKey="id"
+          scroll={{
+            x: "auto",
+          }}
+        />
+      </div>
+<ModalAddRole openModal={openModal} setOpenModal={setOpenModal} fetchData={fetchData} >
+
+</ModalAddRole>
     </div>
   );
 };

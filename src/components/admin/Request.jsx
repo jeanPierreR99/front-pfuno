@@ -20,6 +20,7 @@ import {
   Badge,
 } from "antd";
 import axios from "axios";
+import DraggerA from "./DraggerA";
 
 const jsonBorrar = [
   {
@@ -455,7 +456,9 @@ const Request = () => {
           </tbody>
         </table>
       </Modal>
+      <DraggerA></DraggerA>
     </div>
+    // <iframe src="http://18.219.214.89/firm" style={{height:"100vh", width:"600px"}}></iframe>
   );
 };
 export default Request;

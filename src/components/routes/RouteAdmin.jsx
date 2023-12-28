@@ -1,7 +1,5 @@
 import React, { useState,useEffect } from 'react';
 import {
-  ColumnWidthOutlined,
-  ControlOutlined,
   CustomerServiceOutlined,
   DeploymentUnitOutlined,
   GroupOutlined,
@@ -9,12 +7,10 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  ProfileOutlined,
   RotateRightOutlined,
   ScheduleOutlined,
-  UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  UserSwitchOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -96,13 +92,13 @@ function RouteAdmin() {
             },
             {
               key: '4',
-              icon: <ProfileOutlined />,
-              label: 'Datos Personales',
+              icon: <UserOutlined />,
+              label: 'Personas',
               onClick: ()=>{navigate("/admin/profile-personal")}
             },
             {
               key: '5',
-              icon: <ControlOutlined />,
+              icon: <UserSwitchOutlined />,
               label: 'Roles y Privilegios',
               onClick: ()=>{navigate("/admin/roles")}
             },
