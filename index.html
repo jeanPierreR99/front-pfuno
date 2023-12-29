@@ -28,7 +28,7 @@
     <script>
       $("document").ready(function () {
         const getArgsForEvent = async (payload) => {
-          const rq = await fetch("http://18.219.214.89:4000/args", {
+          const rq = await fetch("https://redirect-api-pfuno.vercel.app/args", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
