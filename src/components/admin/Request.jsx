@@ -276,7 +276,7 @@ const Request = () => {
           overlay={
             <Menu>
               <Menu.Item key="1">
-                <EyeOutlined /> Ver
+              <a href="http://18.219.214.89:4000/file/download" target="_blank"><EyeOutlined /> Ver</a>
               </Menu.Item>
               {record.status == 1 && (
                 <Menu.Item key="2">

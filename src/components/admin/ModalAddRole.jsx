@@ -25,6 +25,7 @@ const ModalAddRole = ({ openModal, setOpenModal, fetchData }) => {
       person,
     };
 
+    console.log(dataREs)
     const storedUser = localStorage.getItem("user");
     const storedUserParse = JSON.parse(storedUser);
     let token = "";
@@ -49,6 +50,7 @@ const ModalAddRole = ({ openModal, setOpenModal, fetchData }) => {
         setStaff("") 
         setEmail("") 
         setOpenModal(false);
+        console.log("asdas")
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);

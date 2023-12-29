@@ -275,8 +275,8 @@ const Tick = () => {
           trigger={"click"}
           overlay={
             <Menu>
-              <Menu.Item key="1" onClick={() => handleView(record)}>
-                <EyeOutlined /> Ver
+              <Menu.Item key="1">
+                <a href="http://18.219.214.89:4000/file/download" target="_blank"><EyeOutlined /> Ver</a>
               </Menu.Item>
               {record.status == 2 && (
                 <Menu.Item key="2" onClick={() => setOpenModal(true)}>
