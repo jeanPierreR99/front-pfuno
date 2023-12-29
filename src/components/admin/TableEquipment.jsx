@@ -306,7 +306,7 @@ const TableEquipment = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Equipos informáticos {countEquit}</span>
+        <span style={{color:'blue', opacity:'.7'}}>Equipos informáticos</span>
           <Button type="primary">+ Agregar</Button>
         </div>
         <Table

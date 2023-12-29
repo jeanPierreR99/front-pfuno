@@ -267,7 +267,7 @@ const TableBinnacle = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Bitacora de equipo informatico</span>
+        <span style={{color:'blue', opacity:'.7'}}>Bitácora</span>
           <Button type="primary">+ Agregar</Button>
         </div>
         <Table

@@ -89,21 +89,17 @@ function click(){
         ></div>
       </div>
       <br />
-      <button id="invoker" onClick={()=>{click()}} type="primary">FIRMAR</button>
-      <br />
-      <br />POSICION X:0
-
+      <Button type="primary" onClick={()=>{click()}}>FIRMAR</Button>
+      {/* <br />
       <span>POSICION X:{posicion.x}</span>
       <br />
-      <br />
       <span>POSICION Y:{posicion.y}</span>
-      <br />
       <br />
       <br />
       <span>POSICION X:{left}</span>
       <br />
       <span>POSICION y:{top}</span>
-      <br />
+      <br /> */}
     </div>
   );
 };

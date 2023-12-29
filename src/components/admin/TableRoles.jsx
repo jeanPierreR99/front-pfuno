@@ -299,7 +299,7 @@ const TableRoles = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Roles y privilegios</span>
+        <span style={{color:'blue', opacity:'.7'}}>Roles y privilegios</span>
           <Button type="primary" onClick={() => handleView()}>+ Nuevo</Button>
         </div>
         <Table

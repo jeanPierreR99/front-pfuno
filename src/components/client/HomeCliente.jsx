@@ -47,7 +47,9 @@ const HomeClient = () => (
         },
       ]}
     />
-<DraggerA></DraggerA>
+    <span style={{color:'blue', opacity:'.7'}}>Firma digital del documento</span>
+<div className="firm-image">
+</div>
   </div>
 );
 export default HomeClient;

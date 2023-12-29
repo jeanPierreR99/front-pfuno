@@ -188,7 +188,7 @@ const TableCampus = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Sedes</span>
+        <span style={{color:'blue', opacity:'.7'}}>Sedes</span>
           <Button type="primary" onClick={() => handleNew()}>
             + Nuevo
           </Button>

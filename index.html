@@ -18,6 +18,7 @@
       href="https://dsp.reniec.gob.pe/refirma_invoker/resources/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <script src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
 
     <title>Vite + React</title>
   </head>
@@ -27,7 +28,7 @@
     <script>
       $("document").ready(function () {
         const getArgsForEvent = async (payload) => {
-          const rq = await fetch("http://18.219.214.89/firm/args", {
+          const rq = await fetch("http://18.219.214.89:4000/firm", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -70,6 +71,5 @@ console.log(payload)
       });
     </script>
     <script type="module" src="/src/main.jsx"></script>
-    <script src="https://dsp.reniec.gob.pe/refirma_invoker/resources/js/clientclickonce.js"></script>
   </body>
 </html>

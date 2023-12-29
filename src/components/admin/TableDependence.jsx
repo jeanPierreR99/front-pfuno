@@ -276,7 +276,7 @@ const TableDependence = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Equipos informáticos {countEquit}</span>
+        <span style={{color:'blue', opacity:'.7'}}>Dependencias</span>
           <Button type="primary">+ Agregar</Button>
         </div>
         <Table

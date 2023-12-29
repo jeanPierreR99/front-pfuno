@@ -311,7 +311,7 @@ const Request = () => {
           trigger={"click"}
           overlay={
             <Menu>
-              <Menu.Item key="1" onClick={() => handleView(record)}>
+              <Menu.Item key="1">
                 <EyeOutlined /> Ver
               </Menu.Item>
               {record.status == 1 && (
@@ -320,7 +320,7 @@ const Request = () => {
                 </Menu.Item>
               )}
               {record.status == 2 && (
-                <Menu.Item key="2">
+                <Menu.Item key="2" onClick={() => handleView(record)}>
                   <EditOutlined /> Firmar
                 </Menu.Item>
               )}
@@ -340,7 +340,7 @@ const Request = () => {
     <div>
       <div className="content-table">
         <div className="flex">
-          <span className="title-table">Historial de Solicitudes</span>
+        <span style={{color:'blue', opacity:'.7'}}>Solicitud de soporte</span>
         </div>
         <Table
           className="table"
@@ -353,7 +353,7 @@ const Request = () => {
         />
       </div>
       <Modal
-        title="Características"
+        title="Firmar documento 000x1"
         open={openModal}
         onCancel={handleCloseModal}
         footer={[
@@ -362,101 +362,8 @@ const Request = () => {
           </Button>,
         ]}
       >
-        {/* <p><strong>Nombre:</strong> {selectedRowData.name}</p>
-          <p><strong>Edad:</strong> {selectedRowData.username}</p>
-          <p><strong>Dirección:</strong> {selectedRowData.email}</p> */}
-        <table className="tableDescription">
-          <tbody>
-            <tr>
-              <th>Nombre</th>
-              <td>{selectedRowData.name}</td>
-            </tr>
-            <tr>
-              <th>Apellidos</th>
-              <td>{selectedRowData.username}</td>
-            </tr>
-            <tr>
-              <th>Correo</th>
-              <td>{selectedRowData.email}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} style={{ textAlign: "center" }}>
-                Dirección
-              </th>
-            </tr>
-            <tr>
-              <th>Calle</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.street
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>Suite</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.suite
-                  : "No disponlible"}
-              </td>
-            </tr>
-            <tr>
-              <th>Ciudad</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.city
-                  : "No disponlible"}
-              </td>
-            </tr>
-            <tr>
-              <th>zip doce</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.zipcode
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>Telefono</th>
-              <td>{selectedRowData.phone}</td>
-            </tr>
-            <tr>
-              <th>Sitio web</th>
-              <td>{selectedRowData.website}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} style={{ textAlign: "center" }}>
-                Compañia
-              </th>
-            </tr>
-            <tr>
-              <th>nombre</th>
-              <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.name
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>catchPhrase</th>
-              <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.catchPhrase
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>bs</th>
-              <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.bs
-                  : "No disponible"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </Modal>
       <DraggerA></DraggerA>
+      </Modal>
     </div>
     // <iframe src="http://18.219.214.89/firm" style={{height:"100vh", width:"600px"}}></iframe>
   );
