@@ -3,27 +3,35 @@ import { Card, List, Avatar, Modal } from 'antd';
 import User from './User';
 const data = [
   {
-    title: 'Servicio 1',
+    title: 'Soporte de Impresoras',
+    description: 'Servicio técnico especializado en la resolución de problemas relacionados con impresoras, desde problemas de conectividad hasta mantenimiento y reparaciones.',
   },
   {
-    title: 'Servicio 2',
+    title: 'Asistencia en Redes',
+    description: 'Soluciones y ayuda para configuración, optimización y resolución de problemas en redes informáticas, asegurando su estabilidad y funcionamiento adecuado.',
   },
   {
-    title: 'Servicio 3',
+    title: 'Recuperación de Datos',
+    description: 'Servicio de recuperación de información y archivos perdidos debido a fallos técnicos, eliminación accidental o problemas de almacenamiento.',
   },
   {
-    title: 'Servicio 4',
+    title: 'Seguridad Informática',
+    description: 'Implementación de medidas y soluciones para proteger sistemas y datos contra amenazas, incluyendo antivirus, firewalls y análisis de vulnerabilidades.',
   },
   {
-    title: 'Servicio 5',
+    title: 'Mantenimiento Preventivo',
+    description: 'Revisiones periódicas y mantenimiento preventivo de equipos informáticos para prevenir fallos y asegurar un rendimiento óptimo a largo plazo.',
   },
   {
-    title: 'Servicio 6',
+    title: 'Optimización de Sistemas',
+    description: 'Servicio para mejorar el rendimiento y la eficiencia de sistemas informáticos mediante ajustes, actualizaciones y optimización de recursos.',
   },
   {
-    title: 'Servicio 6',
+    title: 'Consultoría Tecnológica',
+    description: 'Asesoramiento especializado en la implementación de tecnologías para mejorar procesos y optimizar el uso de herramientas informáticas.',
   },
 ];
+
 
 const info = () => {
   Modal.info({
@@ -90,7 +98,7 @@ const Service = () => {
 
   return <div className='contentTask'>
       <div className="flex" style={{marginBottom:'20px'}}>
-        <span className="title-table">Servicios activos</span>
+      <span style={{color:'blue', opacity:'.7'}}>Servicios</span>
         </div>
   <List
     grid={{
@@ -103,12 +111,12 @@ const Service = () => {
       xxl: 3,
     }}
     dataSource={data}
-    renderItem={(item) => (
+    renderItem={(item, index) => (
       <List.Item>
-        <Card title={item.title} className='card' onClick={()=>{showModal(item.title)}}>
-        
-          <Avatar size={60}  src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-          </Card>
+        <Card title={item.title} className='card' onClick={() => showModal(item.title)}>
+        <Avatar size={80} src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />
+          <p className='spam-title'>{item.description}</p> {/* Agregamos la descripción */}
+        </Card>
       </List.Item>
     )}
   />

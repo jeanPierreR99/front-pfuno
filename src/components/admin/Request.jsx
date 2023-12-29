@@ -24,58 +24,22 @@ import DraggerA from "./DraggerA";
 
 const jsonBorrar = [
   {
-    name_personal: "jean1",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
+    name_personal: "jean pierre",
+    type_support: "soporte de impresoras",
+    date: "28-12-2023",
     status: 1,
   },
   {
-    name_personal: "jean2",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
+    name_personal: "luis angel",
+    type_support: "mantenimiento preventivo",
+    date: "28-12-2023",
     status: 2,
   },
   {
-    name_personal: "jean3",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
+    name_personal: "jefferson",
+    type_support: "optimizacion de sistema",
+    date: "29-12-2023",
     status: 3,
-  },
-  {
-    name_personal: "jean4",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean5",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean6",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean7",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean8",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 3,
-  },
-  {
-    name_personal: "jean9",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 2,
   },
 ];
 

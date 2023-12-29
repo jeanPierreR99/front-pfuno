@@ -20,61 +20,26 @@ import {
   Badge,
 } from "antd";
 import axios from "axios";
+import DraggerA from "../admin/DraggerA";
 
 const jsonBorrar = [
   {
-    name_personal: "jean1",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
+    name_personal: "jean pierre",
+    type_support: "soporte de impresoras",
+    date: "28-12-2023",
     status: 1,
   },
   {
-    name_personal: "jean2",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
+    name_personal: "luis angel",
+    type_support: "mantenimiento preventivo",
+    date: "28-12-2023",
     status: 2,
   },
   {
-    name_personal: "jean3",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
+    name_personal: "jefferson",
+    type_support: "optimizacion de sistema",
+    date: "29-12-2023",
     status: 3,
-  },
-  {
-    name_personal: "jean4",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean5",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean6",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean7",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 1,
-  },
-  {
-    name_personal: "jean8",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 3,
-  },
-  {
-    name_personal: "jean9",
-    type_support: "soporte de impresora",
-    date: "11-12-32",
-    status: 2,
   },
 ];
 
@@ -314,7 +279,7 @@ const Tick = () => {
                 <EyeOutlined /> Ver
               </Menu.Item>
               {record.status == 2 && (
-                <Menu.Item key="2" onClick={() => signDoc(record)}>
+                <Menu.Item key="2" onClick={() => setOpenModal(true)}>
                   <EditOutlined /> Firmar
                 </Menu.Item>
               )}
@@ -334,14 +299,15 @@ const Tick = () => {
     <div>
        <div className="content-table">
         <div className="flex">
-        <span className="title-table">Historial de soporte</span>
+        <span style={{color:'blue', opacity:'.7'}}>Historial de soporte</span>
+
         </div>
       <Table className="table" columns={columns} dataSource={jsonBorrar}  rowKey="id" scroll={{
       x: 'auto',
     }}/>
     </div>
-      <Modal
-        title="Características"
+    <Modal
+        title="Firmar documento 000x1"
         open={openModal}
         onCancel={handleCloseModal}
         footer={[
@@ -350,99 +316,7 @@ const Tick = () => {
           </Button>,
         ]}
       >
-        {/* <p><strong>Nombre:</strong> {selectedRowData.name}</p>
-        <p><strong>Edad:</strong> {selectedRowData.username}</p>
-        <p><strong>Dirección:</strong> {selectedRowData.email}</p> */}
-        <table className="tableDescription">
-          <tbody>
-            <tr>
-              <th>Nombre</th>
-              <td>{selectedRowData.name}</td>
-            </tr>
-            <tr>
-              <th>Apellidos</th>
-              <td>{selectedRowData.username}</td>
-            </tr>
-            <tr>
-              <th>Correo</th>
-              <td>{selectedRowData.email}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} style={{ textAlign: "center" }}>
-                Dirección
-              </th>
-            </tr>
-            <tr>
-              <th>Calle</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.street
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>Suite</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.suite
-                  : "No disponlible"}
-              </td>
-            </tr>
-            <tr>
-              <th>Ciudad</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.city
-                  : "No disponlible"}
-              </td>
-            </tr>
-            <tr>
-              <th>zip doce</th>
-              <td>
-                {selectedRowData.address
-                  ? selectedRowData.address.zipcode
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>Telefono</th>
-              <td>{selectedRowData.phone}</td>
-            </tr>
-            <tr>
-              <th>Sitio web</th>
-              <td>{selectedRowData.website}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} style={{ textAlign: "center" }}>
-                Compañia
-              </th>
-            </tr>
-            <tr>
-              <th>nombre</th>
-              <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.name
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>catchPhrase</th>
-              <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.catchPhrase
-                  : "No disponible"}
-              </td>
-            </tr>
-            <tr>
-              <th>bs</th>
-              <td>
-                {selectedRowData.company
-                  ? selectedRowData.company.bs
-                  : "No disponible"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <DraggerA></DraggerA>
       </Modal>
     </div>
   );

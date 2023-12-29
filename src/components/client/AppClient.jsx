@@ -11,7 +11,6 @@ const AppClient = () => (
     <Service></Service>
   
   <div style={{padding:'10px'}}>
-  <Status></Status>
   </div>
   </div>
 );

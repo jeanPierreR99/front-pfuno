@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { Avatar, List, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import Status from './Status';
 const data = [
   {
-    name: 'User 1',
+    name: 'jean pierre',
     description: 'Soporte'
   },
   {
-    name: 'User 2',
+    name: 'luis angel',
     description: 'Soporte'
   },
   {
-    name: 'User 3',
+    name: 'jefferson',
     description: 'Soporte'
   },
   {
-    name: 'User 4',
+    name: 'nick',
     description: 'Soporte'
   },
   
