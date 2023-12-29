@@ -19,6 +19,7 @@ import {
   Dropdown,
 } from "antd";
 import axios from "axios";
+import { API_URL } from "../../constants";
 
 const TableBinnacle = () => {
   const [getData, setData] = useState([]);
@@ -30,18 +31,31 @@ const TableBinnacle = () => {
   const [selectedRowData, setSelectedRowData] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData(username) {
+      console.log("fetching user", username);
       try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        setData(response.data);
+        const storedUser = localStorage.getItem("user");
+        const storedUserParse = JSON.parse(storedUser);
+        let token = "";
+        if (storedUserParse) {
+          token = storedUserParse.token;
+          console.log(token);
+        }
+    
+        const response = await axios.get(`${API_URL}/api/device/all/resume`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data.data)
+    setData(response.data.data)
       } catch (error) {
-        console.error("error .......", error);
+        console.error("Hubo un error al obtener los datos:", error);
       }
-    };
+    }
     fetchData();
   }, []);
+
 
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -193,32 +207,21 @@ const TableBinnacle = () => {
 
   const columns = [
     {
-      title: "Nombre",
-      dataIndex: "name",
-      key: "name",
+      title: "Código patrimonial",
+      dataIndex: "patrimonial_code",
+      key: "patrimonial_code",
       width: "20%",
-      ...getColumnSearchProps("name"),
-      sorter: (a, b) => a.name.length - b.name.length,
+      ...getColumnSearchProps("patrimonial_code"),
+      sorter: (a, b) => a.patrimonial_code.length - b.patrimonial_code.length,
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Código Postal",
-      dataIndex: "address.zipcode",
-      key: "address.zipcode",
+      title: "Código serial",
+      dataIndex: "serial_code",
+      key: "serial_code",
       width: "10%",
-      ...getColumnSearchProps("address.zipcode"),
-      render: (text, record) => (
-        <span>{record.address ? record.address.zipcode : "No disponible"}</span>
-      ),
-    },
-
-    {
-      title: "Correo",
-      dataIndex: "email",
-      key: "email",
-      width: "20%",
-      ...getColumnSearchProps("email"),
-      sorter: (a, b) => a.email.length - b.email.length,
+      ...getColumnSearchProps("serial_code"),
+      sorter: (a, b) => a.serial_code.length - b.serial_code.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -229,8 +232,8 @@ const TableBinnacle = () => {
           trigger={"click"}
           overlay={
             <Menu>
-              <Menu.Item key="1" onClick={() => handleView(record)}>
-                <EyeOutlined /> Ver
+              <Menu.Item key="1">
+              <a href="http://18.219.214.89:4000/file/download" target="_blank"><EyeOutlined /> Ver</a>
               </Menu.Item>
               <Menu.Item key="2" onClick={() => handleEdit(record)}>
                 <EditOutlined /> Editar
