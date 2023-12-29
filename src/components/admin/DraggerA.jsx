@@ -72,8 +72,8 @@ function click(){
   file_id: "testhoja",
   page_number: "0",
   exacto: 1,
-  poy: top,
-  pox: left,
+  poy: `${(top + (top * 0.34)).toFixed(0)}`,//aumentar
+  pox: `${(left + (left * 0.39)).toFixed(0)}`,//disminuir
   stamp_appearance_id: "0",
   reason: "Soy el autor del documento",
  }
