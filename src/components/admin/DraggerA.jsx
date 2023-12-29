@@ -56,10 +56,10 @@ const DraggerA = () => {
   useEffect(() => {
     const changeVal = () => {
       if (posicion.x !== 0) {
-        setTop(parseInt(posicion.y + 194));
-        setLeft(parseInt(posicion.x+98));
+        setTop(parseInt(posicion.y));
+        setLeft(parseInt(posicion.x));
       } else {
-        setTop(parseInt(posicion.y + 194));
+        setTop(parseInt(posicion.y));
         setLeft(parseInt(posicion.x));
       }
     };
@@ -67,11 +67,18 @@ const DraggerA = () => {
     functionsEvents()
   },);
 function click(){
-  const objPositinon = {
-    x:left,
-    y:top
-  }
-  localStorage.setItem("position", JSON.stringify(objPositinon))
+  
+ const objFirm = {
+  file_id: "testhoja",
+  page_number: "0",
+  exacto: 1,
+  poy: top,
+  pox: left,
+  stamp_appearance_id: "0",
+  reason: "Soy el autor del documento",
+ }
+
+  localStorage.setItem("position", JSON.stringify(objFirm))
   initInvoker("W")
 }  
 

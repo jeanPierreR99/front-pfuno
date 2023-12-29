@@ -47,20 +47,11 @@
           console.log("getarguments");
           const getPosition = localStorage.getItem("position");
           const objParse = JSON.parse(getPosition);
-          let payload = {
-            file_id: "testhoja", 
-            page_number: "0",
-            exacto: 1,
-            poy: `${objParse.y}`,
-            pox: `${objParse.x}`,
-            stamp_appearance_id: "0",
-            reason: "Soy el autor del documento",
-          };
-console.log(payload)
-          let args = await getArgsForEvent(payload);
+    
+          console.log(objParse);
+          let args = await getArgsForEvent(objParse);
           console.log(args);
-          dispatchEventClient('sendArguments', args.args);
-
+          dispatchEventClient("sendArguments", args.args);
         });
         window.addEventListener("invokerOk", () => {
           console.log("todo ok ya firmo");
